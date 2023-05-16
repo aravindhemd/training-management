@@ -14,7 +14,7 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
-    userRef.current.focus();
+    // userRef.current.focus();
   });
 
   const handleValidation = () => {
