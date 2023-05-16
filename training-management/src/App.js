@@ -5,8 +5,7 @@ import Login from './components/Login';
 import {
   BrowserRouter,
   Route,
-  Routes,
-  Switch
+  Routes
 }
   from 'react-router-dom';
 
