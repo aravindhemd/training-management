@@ -26,6 +26,7 @@ const columns = [{ field: "trainingID", headerName: "Id", width: 70 },
 
 const Trainings = () => {
   const [trainingsData, setTrainingData] = useState("");
+
   useEffect(() => {
     axiosInstance.get('/training/').then((res) => {
       console.log(res.data.trainingList);
