@@ -3,12 +3,13 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
+import _ from 'underscore';
 import axiosInstance from "../axiosInstance";
 
 const columns = [
 	{ field: "empId", headerName: "Id", width: 70 },
 	{ field: "empName", headerName: "Employee Name", width: 150 },
-	{ field: "primarySkills", headerName: "Primary Skills", width: 180 },
+	{ field: "primary_skills", headerName: "Primary Skills", width: 180 },
 	{ field: "secondarySkills", headerName: "Secondary Skills", width: 180 },
 	{
 		field: "actions", headerName: "Action", type: 'actions',
@@ -24,6 +25,10 @@ const Employee = () => {
 	useEffect(() => {
 		axiosInstance.get('/emp/v1/emp/list')
 			.then((res) => {
+				res.data.data && res.data.data.forEach(element => {
+					element["primary_skills"] = _.pluck(element.primarySkills, "skillName").join(",");
+					element["secondary_skills"] = _.pluck(element.secondarySkills, "skillName").join(",");
+				});
 				setEmpData(res.data.data)
 			})
 	}, [])
