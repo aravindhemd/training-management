@@ -20,9 +20,8 @@ const pages = [{ name: 'Employees', href: 'Employee' }, { name: 'Skills', href: 
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+  console.log("ResponsiveAppBar rendering");
   const value = React.useContext(AuthContext);
-  console.log(value);
-  console.log("======================================");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

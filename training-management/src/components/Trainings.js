@@ -25,6 +25,7 @@ const columns = [{ field: "trainingID", headerName: "Id", width: 70 },
 }];
 
 const Trainings = () => {
+  console.log(" Trainings Component rendered");
   const [trainingsData, setTrainingData] = useState("");
 
   useEffect(() => {

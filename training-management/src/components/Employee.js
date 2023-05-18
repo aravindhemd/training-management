@@ -20,6 +20,7 @@ const columns = [
 		],
 	}];
 const Employee = () => {
+	console.log("Employee Component rendered");
 	const [empData, setEmpData] = useState("");
 
 	useEffect(() => {
