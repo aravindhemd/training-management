@@ -12,10 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import Link from "@mui/material/Link";
 import Logo from '../images/HTC-Logo_Green.png';
 import AuthContext from '../context/AuthProvider';
 
-const pages = ['Employees', 'Skills', 'Trainings', 'Allocations'];
+const pages = [{ name: 'Employees', href: 'Employee' }, { name: 'Skills', href: "Skills" }, { name: 'Trainings', href: 'Trainings' }, { name: 'Allocations', href: 'Allocations' }];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -77,7 +78,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -103,13 +104,7 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+              <Link color="inherit" underline="hover" className='header-nav' href={page.href}>{page.name}</Link>
             ))}
           </Box>
 
