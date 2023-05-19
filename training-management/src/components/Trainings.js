@@ -7,13 +7,13 @@ import axiosInstance from "../axiosInstance";
 import Stack from '@mui/material/Stack';
 
 const columns = [{ field: "trainingID", headerName: "Id", width: 70 },
-{ field: "skill", headerName: "Skill", width: 70 },
+{ field: "skillName", headerName: "Skill", width: 70 },
 { field: "startDate", headerName: "Start Date", width: 100 },
 { field: "endDate", headerName: "End Date", width: 100 },
 { field: "requesterId", headerName: "Requestor Id", width: 120 },
 { field: "requestedDate", headerName: "Requested Date", width: 140 },
-{ field: "theoryTrainer", headerName: "Theory Trainer", width: 140 },
-{ field: "labTrainer", headerName: "Lab Trainer", width: 120 },
+{ field: "theoryTrainerName", headerName: "Theory Trainer", width: 140 },
+{ field: "labTrainerName", headerName: "Lab Trainer", width: 120 },
 { field: "empId", headerName: "Status", width: 100 },
 {
   field: "actions", headerName: "Action", type: 'actions',
@@ -32,6 +32,11 @@ const Trainings = () => {
     axiosInstance.get('/training/').then((res) => {
       console.log(res.data.trainingList);
       console.log("-----------------------");
+      res.data.trainingList.forEach(element => {
+        element["labTrainerName"] = element.labTrainer.empName;
+        element["theoryTrainerName"] = element.theoryTrainer.empName;
+        element["skillName"] = element.skill.skillName;
+      });
       setTrainingData(res.data.trainingList)
     })
   }, [])
