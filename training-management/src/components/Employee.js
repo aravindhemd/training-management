@@ -24,6 +24,7 @@ const Employee = () => {
 	useEffect(() => {
 		axiosInstance.get('/emp/v1/emp/list')
 			.then((res) => {
+				console.log(res)
 				setEmpData(res.data.data)
 			})
 	}, [])

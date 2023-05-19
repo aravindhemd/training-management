@@ -7,8 +7,8 @@ import axiosInstance from "../axiosInstance";
 
 const columns = [
   { field: "skillId", headerName: "ID", width: 70 },
-  { field: "skillName", headerName: "Skill name", width: 150 },
-  { field: "category", headerName: "Category", width: 200 },
+  { field: "skillName", headerName: "Skill name", width: 130 },
+  { field: "category", headerName: "Category", width: 130 },
   {
     field: "actions", headerName: "Action", type: 'actions',
     width: 100,
@@ -22,19 +22,14 @@ const columns = [
 function Skills() {
   let [skillsData, setSkillsData] = useState("");
 
-  useEffect(() => {
-    axiosInstance
-      .get("/skills/")
-      .then((res) => {
-        console.log(res.data);
-        console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
-        setSkillsData(res.data)
-      })
-  }, [])
-
-  if (skillsData && skillsData.skillList) {
-    console.log(skillsData)
+  async function getSkills() {
+    let data = await getSkillsAPI();
+    setSkillsData(data);
   }
+
+  useEffect(() => {
+    getSkills();
+  }, []);
 
   return (
     <div style={{ height: 400, width: "60%", margin: "auto", marginTop: 20 }}>
@@ -49,7 +44,9 @@ function Skills() {
             },
           }}
           pageSizeOptions={[5, 10]}
-        />}
+          checkboxSelection
+        />
+      }
     </div>
   );
 }
