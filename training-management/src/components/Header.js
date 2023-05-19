@@ -20,9 +20,8 @@ const pages = [{ name: 'Employees', href: 'Employee' }, { name: 'Skills', href: 
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+  console.log("ResponsiveAppBar rendering");
   const value = React.useContext(AuthContext);
-  console.log(value);
-  console.log("======================================");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -77,7 +76,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -104,7 +103,7 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link color="inherit" underline="hover" className='header-nav' href={page.href}>{page.name}</Link>
+              <Link key={page.href} color="inherit" underline="hover" className='header-nav' href={page.href}>{page.name}</Link>
             ))}
           </Box>
 
