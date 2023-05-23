@@ -15,21 +15,26 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Link from "@mui/material/Link";
 import Logo from "../images/HTC-Logo_Green.png";
 import AuthContext from "../context/AuthProvider";
+import { useNavigate } from "react-router";
+import { useTheme } from "@emotion/react";
 
 const pages = [
-  { name: "Employees", href: "Employee" },
-  { name: "Skills", href: "Skills" },
-  { name: "Trainings", href: "Trainings" },
-  { name: "Allocations", href: "Allocations" },
-  { name: 'Register', href: 'Register' }
+  { name: "Employees", href: "/Employee" },
+  { name: "Skills", href: "/Skills" },
+  { name: "Trainings", href: "/Trainings" },
+  { name: "Allocations", href: "/Allocations" },
+  { name: 'Register', href: '/Register' }
 ];
 const settings = ["Profile", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   console.log("ResponsiveAppBar rendering");
-  const value = React.useContext(AuthContext);
+  const {auth} = React.useContext(AuthContext);
+  console.log("auth",auth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const history = useNavigate();
+  const theme = useTheme()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -109,20 +114,15 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link
-                key={page.href}
-                color="inherit"
-                underline="hover"
-                className="header-nav"
-                href={page.href}
-              >
+              <Button onClick={() => {history(page.href)}} sx={{color:"white"}}>
                 {page.name}
-              </Link>
+              </Button>
+
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Typography textAlign="center">{value.auth.email}</Typography>
+            <Typography textAlign="center">{auth.email}</Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
