@@ -11,6 +11,7 @@ import {
   Routes
 }
   from 'react-router-dom';
+import Register from './components/Register';
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
             <Route path="/Skills" element={<Skill />} />
             <Route path="/Trainings" element={<Trainings />} />
             <Route path="/Allocations" element={<Allocations />} />
+            <Route path="/Register" element={<Register />} />
+
           </Routes>
         </div>
       </BrowserRouter>
