@@ -27,7 +27,6 @@ function App() {
             <Route path="/Trainings" element={<Trainings />} />
             <Route path="/Allocations" element={<Allocations />} />
             <Route path="/Register" element={<Register />} />
-
           </Routes>
         </div>
       </BrowserRouter>
