@@ -37,7 +37,7 @@ const Login = () => {
       setAuth({ accessToken, email });
       console.log(resp + "resp");
       if (resp.status === 200)
-        navigate('/');
+        navigate('/Skills');
     } catch (err) {
       console.log(err);
       if (err?.response?.data) {
