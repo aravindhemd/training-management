@@ -28,7 +28,10 @@ const Allocations = () => {
   useEffect(() => {
     axiosInstance.get('/allocation/v1/allocation/list')
       .then((res) => {
-        setAllocationData(res.data)
+        res.data.data.forEach(element => {
+          element["empName"] = element.employee.empName;
+        });
+        setAllocationData(res.data.data)
       })
   }, [])
 

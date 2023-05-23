@@ -10,7 +10,7 @@ const columns = [
 	{ field: "empId", headerName: "Id", width: 70 },
 	{ field: "empName", headerName: "Employee Name", width: 150 },
 	{ field: "primary_skills", headerName: "Primary Skills", width: 180 },
-	{ field: "secondarySkills", headerName: "Secondary Skills", width: 180 },
+	{ field: "secondary_skills", headerName: "Secondary Skills", width: 180 },
 	{
 		field: "actions", headerName: "Action", type: 'actions',
 		width: 100,
