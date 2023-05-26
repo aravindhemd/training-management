@@ -1,12 +1,17 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import axios from './../api/axios';
-import AuthContext from "../context/AuthProvider";
-import Logo from "../images/HTC-Logo_Green.png";
-import { Box, Grid, TextField, Typography, Button } from "@mui/material";
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
+import RedLogo from "../images/RedLogo.png";
+import Home from "../images/home.jpg";
 import { loginUsers } from "./../services/LoginService";
 
-const registerUrl = '/emp/v1/authenticate';
+const registerUrl = "/emp/v1/authenticate";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,15 +21,32 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [emailError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loginData, setLoginData] = useState({
+    empId: "",
+    password: "",
+  });
+  const [errorFlag, setErrorFlag] = useState(false);
+  const [loginMsg, setLoginMsg] = useState(false);
 
-  const handleValidation = () => {
-    console.log("aaaaaaaaaaaa");
-  }
+  const handleValidation = () => {};
+
+  const handleChange = (event) => {
+    setLoginData((prevData) => {
+      return {
+        ...prevData,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+
+  const handleClose = (event, reason) => {
+    setErrorFlag(false);
+  };
 
   const loginUser = async (payload) => {
     let data = await loginUsers(payload);
     return data;
-  }
+  };
 
   const loginSubmit = async (e) => {
     try {
@@ -32,52 +54,130 @@ const Login = () => {
       handleValidation();
 
       console.log(email, password);
-      const resp = await loginUser({ userName: email, password: password });
-      // const resp = await axios.post(registerUrl, JSON.stringify({ userName: email, password: password }), {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     withCredentials: true
-      //   }
-      // });
+      const resp = await loginUser({
+        userName: loginData.empId,
+        password: loginData.password,
+      });
+      console.log(resp.data);
+
       const accessToken = resp?.data?.jwtToken;
+
       setAuth({ accessToken, email });
-      console.log(resp + "resp");
-      if (resp.status === 200)
-        navigate('/Employee');
+      if (resp.data  && resp.data !== "Bad Credentials"){
+        setAuth(email)
+        navigate("/Employee");
+      }
+      else {
+        setErrorFlag(true)
+        setLoginMsg(resp.data)
+      }
     } catch (err) {
       console.log(err);
       if (err?.response?.data) {
         alert(err?.response?.data);
       }
     }
-
   };
 
   return (
-    <div className="Login">
-      <Grid
-        container
-        rowGap={"3rem"}
-        columnGap={"1rem"}
-        justifyContent={"center"}
-        paddingY={"1rem"}
-      >
-        <Box>
-          <img src={Logo} alt="logo" />
-        </Box>
-      </Grid>
-      <Box
-        component="form"
-        sx={{ border: 1, width: 300, height: 250, margin: 'auto', marginTop: 4 }}
-      >
-        <TextField id="email" onChange={(event) => setEmail(event.target.value)} label="Email" variant="standard" />
-        <br></br>
-        <TextField id="password" onChange={(event) => setPassword(event.target.value)} type="password" label="Password" variant="standard" />
-        <br></br>
-        <Button color="primary" className="login-submit" onClick={loginSubmit} variant="contained">Sign In</Button>
-      </Box >
-    </div>
+    <>
+      <Snackbar open={errorFlag} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {loginMsg}
+        </Alert>
+      </Snackbar>
+      <Box>
+        <Grid container spacing={"3"} direction={"row"}>
+          <Grid item>
+            <img
+              src={Home}
+              alt="logo"
+              style={{
+                width: "100%",
+                maxHeight: "100vh",
+              }}
+            />
+          </Grid>
+
+          <Grid item flexGrow={1}>
+            <Grid
+              container
+              spacing={0}
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Grid item>
+                <img
+                  src={RedLogo}
+                  alt="logo"
+                  style={{
+                    maxHeight: "200px",
+                    marginTop: "50px",
+                  }}
+                />
+              </Grid>
+
+              <Grid item sx={{ marginTop: "30px" }}>
+                <Typography>Sign in with your Training Credentials</Typography>
+              </Grid>
+              <Grid item sx={{ marginTop: "10px" }}>
+                <TextField
+                  name="empId"
+                  onChange={(event) => {
+                    handleChange(event);
+                  }}
+                  sx={{
+                    ".MuiInputBase-input": {
+                      padding: "10px",
+                    },
+                  }}
+                  placeholder="Employee ID"
+                ></TextField>
+              </Grid>
+              <Grid item sx={{ marginTop: "10px" }}>
+                <TextField
+                  name="password"
+                  onChange={(event) => {
+                    handleChange(event);
+                  }}
+                  sx={{
+                    ".MuiInputBase-input": {
+                      padding: "10px",
+                    },
+                  }}
+                  placeholder="Password"
+                ></TextField>
+              </Grid>
+
+              <Grid item sx={{ marginTop: "10px" }}>
+                <Button variant="contained" onClick={loginSubmit}>
+                  {" "}
+                  Login
+                </Button>
+              </Grid>
+
+              <Grid item sx={{ marginTop: "40px" }}>
+                <Typography>Forgot Password?</Typography>
+              </Grid>
+              <Grid item sx={{ marginTop: "5px" }}>
+                <Link href="#">Click here to Reset Password</Link>
+              </Grid>
+
+              <Grid item sx={{ marginTop: "40px" }}>
+                <Typography>
+                  No Account?{" "}
+                  <Button onClick={() => navigate("/Register")}>
+                    Register
+                  </Button>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   );
-}
+};
 
 export default Login;

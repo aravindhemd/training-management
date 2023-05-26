@@ -33,13 +33,14 @@ const Employee = () => {
 				setEmpData(res.data.data)
 			})
 	}, [])
-
+	
 	return (<div style={{ height: 400, width: "60%", margin: "auto", marginTop: 20 }}>
 		{empData &&
 			<DataGrid
 				getRowId={(row) => row.empId}
 				rows={empData}
 				columns={columns}
+				key={(row) => row.empId}
 				initialState={{
 					pagination: {
 						paginationModel: { page: 0, pageSize: 5 },
