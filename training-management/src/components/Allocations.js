@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 import Stack from '@mui/material/Stack';
+import CheckAuth from '../utils/checkAuth';
 
 const columns = [
   { field: "allocationId", headerName: "Id", width: 70 },
@@ -24,6 +25,7 @@ const columns = [
 
 const Allocations = () => {
   const [allocationData, setAllocationData] = useState("");
+  CheckAuth()
 
   useEffect(() => {
     axiosInstance.get('/allocation/v1/allocation/list')

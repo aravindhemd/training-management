@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 import Stack from '@mui/material/Stack';
+import CheckAuth from '../utils/checkAuth';
 
 const columns = [{ field: "trainingID", headerName: "Id", width: 70 },
 { field: "skillName", headerName: "Skill", width: 70 },
@@ -27,6 +28,7 @@ const columns = [{ field: "trainingID", headerName: "Id", width: 70 },
 const Trainings = () => {
   console.log(" Trainings Component rendered");
   const [trainingsData, setTrainingData] = useState("");
+  CheckAuth();
 
   useEffect(() => {
     axiosInstance.get('/training/').then((res) => {

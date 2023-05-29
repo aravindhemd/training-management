@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 import React, { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
@@ -53,7 +53,7 @@ const Login = () => {
       e.preventDefault();
       handleValidation();
 
-      console.log(email, password);
+      console.log(loginData);
       const resp = await loginUser({
         userName: loginData.empId,
         password: loginData.password,
@@ -62,9 +62,10 @@ const Login = () => {
 
       const accessToken = resp?.data?.jwtToken;
 
-      setAuth({ accessToken, email });
+      // const email = loginData.empId;
+      // setAuth({"email":loginData.empId});
       if (resp.data  && resp.data !== "Bad Credentials"){
-        setAuth(email)
+        setAuth({"email":loginData.empId});
         navigate("/Employee");
       }
       else {
@@ -132,7 +133,7 @@ const Login = () => {
                       padding: "10px",
                     },
                   }}
-                  placeholder="Employee ID"
+                  placeholder="Email ID"
                 ></TextField>
               </Grid>
               <Grid item sx={{ marginTop: "10px" }}>
