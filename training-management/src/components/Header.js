@@ -1,40 +1,38 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import Link from "@mui/material/Link";
-import Logo from "../images/HTC-Logo_Green.png";
-import AuthContext from "../context/AuthProvider";
+import MenuIcon from "@mui/icons-material/Menu";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
-import { useTheme } from "@emotion/react";
+import AuthContext from "../context/AuthProvider";
+import Logo from "../images/HTC-Logo_Green.png";
+
 
 const pages = [
   { name: "Employees", href: "/Employee" },
   { name: "Skills", href: "/Skills" },
   { name: "Trainings", href: "/Trainings" },
-  { name: "Allocations", href: "/Allocations" },
-  { name: 'Register', href: '/Register' }
+  { name: "Allocations", href: "/Allocations" }
 ];
 const settings = ["Profile", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
-  console.log("ResponsiveAppBar rendering");
   const {auth} = React.useContext(AuthContext);
-  console.log("auth",auth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const history = useNavigate();
-  const theme = useTheme()
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -43,12 +41,15 @@ function ResponsiveAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event) => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseUserMenu = (event) => {
+    if(event.nativeEvent.target.outerText == "Logout"){
+      setAuth({"email":""});
+      navigate("/Login");
+    }
   };
 
   return (
@@ -121,8 +122,8 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Typography textAlign="center">{auth.email}</Typography>
+          <Typography textAlign="center"> Hello {auth.email}</Typography>
+          <Box sx={{ flexGrow: 0, marginLeft:"10px" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
 import getSkillsAPI from '../utils/api'
 import axiosInstance from "../axiosInstance";
+import CheckAuth from "../utils/checkAuth";
 
 const columns = [
   { field: "skillId", headerName: "ID", width: 70 },
@@ -26,6 +27,7 @@ function Skills() {
     let data = await getSkillsAPI();
     setSkillsData(data);
   }
+  CheckAuth()
 
   useEffect(() => {
     getSkills();
