@@ -27,6 +27,27 @@ const style = {
   p: 4,
 };
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useEffect, useState } from "react";
+import getSkillsAPI from '../utils/api'
+import axiosInstance from "../axiosInstance";
+import CheckAuth from "../utils/checkAuth";
+
+const columns = [
+  { field: "skillId", headerName: "ID", width: 70 },
+  { field: "skillName", headerName: "Skill name", width: 130 },
+  { field: "category", headerName: "Category", width: 130 },
+  {
+    field: "actions", headerName: "Action", type: 'actions',
+    width: 100,
+    getActions: () => [
+      <GridActionsCellItem icon={<EditIcon />} label="Edit" />,
+      <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
+    ],
+  }
+];
+
 function Skills() {
   let [skillsData, setSkillsData] = useState("");
   const [open, setOpen] = useState(false);
@@ -80,6 +101,7 @@ function Skills() {
     let data = await getSkillsAPI();
     setSkillsData(data);
   }
+  CheckAuth()
 
   async function addSkill(payload) {
     let data = await addSkillAPI(payload);
