@@ -31,13 +31,6 @@ const style = {
   p: 4,
 };
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { useEffect, useState } from "react";
-import getSkillsAPI from '../utils/api'
-import axiosInstance from "../axiosInstance";
-import CheckAuth from "../utils/checkAuth";
-
 const columns = [
   { field: "skillId", headerName: "ID", width: 70 },
   { field: "skillName", headerName: "Skill name", width: 130 },
