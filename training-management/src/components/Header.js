@@ -22,12 +22,13 @@ const pages = [
   { name: "Employees", href: "/Employee" },
   { name: "Skills", href: "/Skills" },
   { name: "Trainings", href: "/Trainings" },
-  { name: "Allocations", href: "/Allocations" }
+  { name: "Allocations", href: "/Allocations" },
+  { name: "AddEmployee", href: "/AddEmployee" }
 ];
 const settings = ["Profile", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
-  const {auth} = React.useContext(AuthContext);
+  const { auth } = React.useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const history = useNavigate();
@@ -46,8 +47,8 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseUserMenu = (event) => {
-    if(event.nativeEvent.target.outerText == "Logout"){
-      setAuth({"email":""});
+    if (event.nativeEvent.target.outerText == "Logout") {
+      setAuth({ "email": "" });
       navigate("/Login");
     }
   };
@@ -115,7 +116,7 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button onClick={() => {history(page.href)}} sx={{color:"white"}}>
+              <Button onClick={() => { history(page.href) }} sx={{ color: "white" }}>
                 {page.name}
               </Button>
 
@@ -123,7 +124,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Typography textAlign="center"> Hello {auth.email}</Typography>
-          <Box sx={{ flexGrow: 0, marginLeft:"10px" }}>
+          <Box sx={{ flexGrow: 0, marginLeft: "10px" }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
