@@ -8,7 +8,11 @@ import TextField from "@mui/material/TextField";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import getSkillsAPI, { addSkillAPI, deleteSkillAPI, editSkillAPI } from "../utils/api";
+import getSkillsAPI, {
+  addSkillAPI,
+  deleteSkillAPI,
+  editSkillAPI,
+} from "../utils/api";
 import CheckAuth from "../utils/checkAuth";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -30,8 +34,14 @@ const style = {
 function Skills() {
   let [skillsData, setSkillsData] = useState("");
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => { setOpen(false); reset(); setEditFlag(false)};
+  const handleOpen = () => {
+    setOpen(true);
+    setSkillData({});
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setEditFlag(false);
+  };
   const [respFlag, setRespFlag] = useState(false);
   const [resMsg, setResMsg] = useState(false);
   const [skillData, setSkillData] = useState({});
@@ -73,7 +83,7 @@ function Skills() {
     register,
     handleSubmit,
     formState: { errors },
-    reset 
+    reset,
   } = useForm();
 
   async function getSkills() {
@@ -88,7 +98,7 @@ function Skills() {
     setOpen(false);
   }
 
-  async function editSkillData(payload){
+  async function editSkillData(payload) {
     let data = await editSkillAPI(payload);
     setRespFlag(true);
     setResMsg(data.message);
@@ -101,23 +111,22 @@ function Skills() {
     setResMsg("Skill deleted successfully");
   }
 
-  function editSkill(payload){
-    handleOpen()
+  function editSkill(payload) {
+    handleOpen();
     setSkillData({
-      "name":payload.skillName,
-      "category":payload.category
-    })
+      name: payload.skillName,
+      category: payload.category,
+      skillId: payload.skillId,
+    });
     setEditFlag(true);
   }
 
   CheckAuth();
 
   const getData = (data) => {
-    console.log(data)
-    if(!editFlag)
-      addSkill(data);
-    else
-      editSkillData(data);
+    console.log(data);
+    if (!editFlag) addSkill(data);
+    else editSkillData(data);
   };
 
   useEffect(() => {
@@ -157,8 +166,16 @@ function Skills() {
             >
               <TextField
                 id="outlined-disabled"
+                label="skill Id"
+                defaultValue={skillData.skillId ? skillData.skillId : ""}
+                {...register("skillId")}
+                sx={{ margin: "20px", display: "none" }}
+                hidden="true"
+              />
+              <TextField
+                id="outlined-disabled"
                 label="Skill Name"
-                defaultValue= {skillData.name ? skillData.name : ""}
+                defaultValue={skillData.name ? skillData.name : ""}
                 {...register("skillName")}
                 sx={{ margin: "20px" }}
               />
